@@ -1,0 +1,46 @@
+plugins {
+    id 'java-gradle-plugin'
+    id 'maven-publish'
+}
+
+group 'org.example'
+version = '1.0'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+
+jar{
+    archivesBaseName = 'customPlugin'
+}
+
+publishing {
+    repositories {
+        maven {
+            name = 'myRepo'
+            url = '../../CleverTask2-2/libs'
+        }
+        mavenLocal()
+    }
+}
+
+ gradlePlugin {
+           plugins {
+               register('customPlugin') {
+
+                   description = "aggregate jacoco report"
+                   displayName = "customPlugin"
+                   id = 'ru.clevertec.customPlugin'
+                   implementationClass = 'ru.clevertec.plugins.CustomPlugin'
+               }
+           }
+       }
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+test {
+    useJUnitPlatform()
+}
